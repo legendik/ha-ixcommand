@@ -13,62 +13,8 @@ permissions:
 jobs:
   release-please:
     runs-on: ubuntu-latest
-    outputs:
-      release_created: ${{ steps.release.outputs.release_created }}
-      tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
-      - name: Run release-please
+      - uses: googleapis/release-please-action@v4
         id: release
-        uses: google-github-actions/release-please-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          command: manifest
-
-  release:
-    runs-on: ubuntu-latest
-    needs: release-please
-    if: ${{ needs.release-please.outputs.release_created }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Get version from tag
-        id: get_version
-        run: echo "version=${{ needs.release-please.outputs.tag_name }}" >> $GITHUB_OUTPUT
-
-      - name: Create release notes
-        run: |
-          cat > release_notes.md << 'EOF'
-          ## Release ${{ steps.get_version.outputs.version }}
-
-          This release was automatically created by [release-please](https://github.com/googleapis/release-please).
-
-          ### Installation
-
-          #### HACS (recommended)
-          1. Go to HACS → Integrations
-          2. Click the three dots (⋮) → Custom repositories
-          3. Add `https://github.com/${{ github.repository }}` as a repository URL
-          4. Select "Integration" as category
-          5. Search for "iXcommand EV Charger" and install it
-          6. Restart Home Assistant
-
-          #### Manual Installation
-          Copy the `custom_components/ixcommand/` folder to your Home Assistant's `custom_components/` directory and restart Home Assistant.
-
-          ### Changes
-          EOF
-
-          # Append the changelog content if it exists
-          if [ -f "CHANGELOG.md" ]; then
-            # Extract the latest release notes from CHANGELOG.md
-            awk '/^## / { if (p) exit; p=1; next } p' CHANGELOG.md >> release_notes.md
-          fi
-
-      - name: Update release notes
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ needs.release-please.outputs.tag_name }}
-          name: Release ${{ steps.get_version.outputs.version }}
-          body_path: release_notes.md
-          generate_release_notes: false
