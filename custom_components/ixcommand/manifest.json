@@ -1,0 +1,11 @@
+{
+  "domain": "ixcommand",
+  "name": "iXcommand EV Charger",
+  "codeowners": ["@legendik"],
+  "config_flow": true,
+  "documentation": "https://github.com/legendik/ha-ixcommand",
+  "integration_type": "hub",
+  "iot_class": "cloud_polling",
+  "requirements": [],
+  "version": "1.0.0"
+}
