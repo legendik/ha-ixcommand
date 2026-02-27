@@ -160,8 +160,6 @@ class IXcommandDurationSensor(IXcommandEntity, SensorEntity):
 class IXcommandSignalStrengthSensor(IXcommandEntity, SensorEntity):
     """Sensor for WiFi signal strength."""
 
-    _attr_device_class = SensorDeviceClass.SIGNAL_STRENGTH
-    _attr_state_class = SensorStateClass.MEASUREMENT
     _attr_native_unit_of_measurement = "%"
     _attr_suggested_display_precision = 0
 
