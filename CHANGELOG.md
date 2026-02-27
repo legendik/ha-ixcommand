@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/legendik/ha-ixcommand/compare/ixcommand-v1.2.0...ixcommand-v1.2.1) (2026-02-27)
+
+
+### Bug Fixes
+
+* try to add domain to unique entity id ([3d214eb](https://github.com/legendik/ha-ixcommand/commit/3d214eb8244b54a75b1fa09630b620a7b70fb3d9))
+
 ## [1.2.0](https://github.com/legendik/ha-ixcommand/compare/ixcommand-v1.1.1...ixcommand-v1.2.0) (2026-02-27)
 
 
