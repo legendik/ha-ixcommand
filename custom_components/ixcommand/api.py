@@ -48,7 +48,7 @@ class IXcommandApiClient:
         method: str,
         endpoint: str,
         data: Dict[str, Any] | None = None,
-        params: Dict[str, Any] | None = None,
+        params: Dict[str, Any] | List[tuple[str, str]] | None = None,
     ) -> Dict[str, Any]:
         """Make an HTTP request to the API."""
         url = f"{API_BASE_URL}{endpoint}"
@@ -83,7 +83,9 @@ class IXcommandApiClient:
         if properties is None:
             properties = ALL_READABLE_PROPERTIES
 
-        params = {"keys": ",".join(properties)}
+        # Send keys as multiple query parameters (array format)
+        # Each property becomes a separate "keys" parameter
+        params = [("keys", prop) for prop in properties]
         endpoint = f"/thing/{serial_number}/properties"
 
         return await self._make_request("GET", endpoint, params=params)
