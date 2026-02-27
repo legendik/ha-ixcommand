@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/legendik/ha-ixcommand/compare/ixcommand-v1.2.1...ixcommand-v1.2.2) (2026-02-27)
+
+
+### Bug Fixes
+
+* use short entity name but entity_id with serial key and prefix ([9f86e7d](https://github.com/legendik/ha-ixcommand/commit/9f86e7d8f7b101a8371670ffb638a8ef45c397d7))
+
 ## [1.2.1](https://github.com/legendik/ha-ixcommand/compare/ixcommand-v1.2.0...ixcommand-v1.2.1) (2026-02-27)
 
 
