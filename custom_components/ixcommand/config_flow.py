@@ -20,6 +20,9 @@ class IXcommandConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # type: ig
 
         if user_input is not None:
             try:
+                # Normalize serial number to uppercase
+                user_input = {**user_input, CONF_SERIAL_NUMBER: user_input[CONF_SERIAL_NUMBER].upper()}
+
                 # Validate the serial number format
                 serial = user_input[CONF_SERIAL_NUMBER]
                 if not self._validate_serial_format(serial):
