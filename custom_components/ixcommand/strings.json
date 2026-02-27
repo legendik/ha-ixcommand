@@ -1,0 +1,34 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "data": {
+          "api_key": "API Key",
+          "serial_number": "Serial Number"
+        },
+        "data_description": {
+          "api_key": "Enter your iXcommand API key.",
+          "serial_number": "Enter your charger serial number (format: XXX-XXX-XXX)."
+        }
+      },
+      "reauth_confirm": {
+        "data": {
+          "api_key": "API Key"
+        },
+        "data_description": {
+          "api_key": "Enter your updated iXcommand API key for charger {serial}."
+        }
+      }
+    },
+    "error": {
+      "invalid_serial_format": "Serial number must be in format XXX-XXX-XXX",
+      "invalid_auth": "Invalid API key",
+      "cannot_connect": "Cannot connect to iXcommand API",
+      "unknown": "Unknown error occurred"
+    },
+    "abort": {
+      "already_configured": "Charger is already configured",
+      "reauth_successful": "Successfully reauthenticated"
+    }
+  }
+}
