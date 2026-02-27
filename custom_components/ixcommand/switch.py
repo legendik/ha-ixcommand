@@ -1,18 +1,15 @@
 """Switch entities for iXcommand EV Charger."""
 
-import asyncio
-import logging
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .api import IXcommandApiError
+from .api import IXcommandApiClient
 from .const import PROP_CHARGING_ENABLE, PROP_SINGLE_PHASE, PROP_BOOST_STATE
+from .controllable_entity import IXcommandControllableEntity
 from .coordinator import IXcommandCoordinator
 from .entity import IXcommandEntity
-
-_LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
@@ -22,7 +19,7 @@ async def async_setup_entry(
 ) -> None:
     """Set up the iXcommand switches."""
     coordinator: IXcommandCoordinator = hass.data["ixcommand"][config_entry.entry_id]["coordinator"]
-    api_client = hass.data["ixcommand"][config_entry.entry_id]["api_client"]
+    api_client: IXcommandApiClient = hass.data["ixcommand"][config_entry.entry_id]["api_client"]
 
     entities = [
         IXcommandChargingEnableSwitch(coordinator, config_entry, api_client, "charging_enable", "Charging Enable"),
@@ -33,21 +30,21 @@ async def async_setup_entry(
     async_add_entities(entities)
 
 
-class IXcommandChargingEnableSwitch(IXcommandEntity, SwitchEntity):
+class IXcommandChargingEnableSwitch(IXcommandControllableEntity, IXcommandEntity, SwitchEntity):
     """Switch for charging enable/disable."""
 
     def __init__(
         self,
         coordinator: IXcommandCoordinator,
         config_entry: ConfigEntry,
-        api_client,
+        api_client: IXcommandApiClient,
         entity_suffix: str,
         friendly_name: str,
     ) -> None:
         """Initialize the switch."""
-        super().__init__(coordinator, config_entry, entity_suffix)
+        IXcommandEntity.__init__(self, coordinator, config_entry, entity_suffix)
+        IXcommandControllableEntity.__init__(self, coordinator, api_client)
         self._attr_name = friendly_name
-        self.api_client = api_client
 
     @property
     def is_on(self) -> bool | None:
@@ -56,58 +53,28 @@ class IXcommandChargingEnableSwitch(IXcommandEntity, SwitchEntity):
 
     async def async_turn_on(self, **kwargs) -> None:
         """Turn on charging."""
-        try:
-            _LOGGER.debug("Turning on charging for charger %s", self.coordinator.serial_number)
-            await self.api_client.set_properties(
-                self.coordinator.serial_number, {PROP_CHARGING_ENABLE: True}
-            )
-            _LOGGER.debug("Successfully turned on charging, updating local state")
-            # Optimistically update coordinator data
-            updated_data = self.coordinator.data.copy()
-            updated_data[PROP_CHARGING_ENABLE] = True
-            self.coordinator.async_set_updated_data(updated_data)
-            # Also refresh from API to confirm
-            await asyncio.sleep(2)
-            await self.coordinator.async_request_refresh()
-        except IXcommandApiError as err:
-            _LOGGER.error("Failed to turn on charging: %s", err)
-            raise
+        await self._async_control(PROP_CHARGING_ENABLE, True)
 
     async def async_turn_off(self, **kwargs) -> None:
         """Turn off charging."""
-        try:
-            _LOGGER.debug("Turning off charging for charger %s", self.coordinator.serial_number)
-            await self.api_client.set_properties(
-                self.coordinator.serial_number, {PROP_CHARGING_ENABLE: False}
-            )
-            _LOGGER.debug("Successfully turned off charging, updating local state")
-            # Optimistically update coordinator data
-            updated_data = self.coordinator.data.copy()
-            updated_data[PROP_CHARGING_ENABLE] = False
-            self.coordinator.async_set_updated_data(updated_data)
-            # Also refresh from API to confirm
-            await asyncio.sleep(2)
-            await self.coordinator.async_request_refresh()
-        except IXcommandApiError as err:
-            _LOGGER.error("Failed to turn off charging: %s", err)
-            raise
+        await self._async_control(PROP_CHARGING_ENABLE, False)
 
 
-class IXcommandSinglePhaseSwitch(IXcommandEntity, SwitchEntity):
+class IXcommandSinglePhaseSwitch(IXcommandControllableEntity, IXcommandEntity, SwitchEntity):
     """Switch for single phase mode."""
 
     def __init__(
         self,
         coordinator: IXcommandCoordinator,
         config_entry: ConfigEntry,
-        api_client,
+        api_client: IXcommandApiClient,
         entity_suffix: str,
         friendly_name: str,
     ) -> None:
         """Initialize the switch."""
-        super().__init__(coordinator, config_entry, entity_suffix)
+        IXcommandEntity.__init__(self, coordinator, config_entry, entity_suffix)
+        IXcommandControllableEntity.__init__(self, coordinator, api_client)
         self._attr_name = friendly_name
-        self.api_client = api_client
 
     @property
     def is_on(self) -> bool | None:
@@ -116,41 +83,11 @@ class IXcommandSinglePhaseSwitch(IXcommandEntity, SwitchEntity):
 
     async def async_turn_on(self, **kwargs) -> None:
         """Enable single phase mode."""
-        try:
-            _LOGGER.debug("Enabling single phase mode for charger %s", self.coordinator.serial_number)
-            await self.api_client.set_properties(
-                self.coordinator.serial_number, {PROP_SINGLE_PHASE: True}
-            )
-            _LOGGER.debug("Successfully enabled single phase mode, updating local state")
-            # Optimistically update coordinator data
-            updated_data = self.coordinator.data.copy()
-            updated_data[PROP_SINGLE_PHASE] = True
-            self.coordinator.async_set_updated_data(updated_data)
-            # Also refresh from API to confirm
-            await asyncio.sleep(2)
-            await self.coordinator.async_request_refresh()
-        except IXcommandApiError as err:
-            _LOGGER.error("Failed to enable single phase mode: %s", err)
-            raise
+        await self._async_control(PROP_SINGLE_PHASE, True)
 
     async def async_turn_off(self, **kwargs) -> None:
         """Disable single phase mode."""
-        try:
-            _LOGGER.debug("Disabling single phase mode for charger %s", self.coordinator.serial_number)
-            await self.api_client.set_properties(
-                self.coordinator.serial_number, {PROP_SINGLE_PHASE: False}
-            )
-            _LOGGER.debug("Successfully disabled single phase mode, updating local state")
-            # Optimistically update coordinator data
-            updated_data = self.coordinator.data.copy()
-            updated_data[PROP_SINGLE_PHASE] = False
-            self.coordinator.async_set_updated_data(updated_data)
-            # Also refresh from API to confirm
-            await asyncio.sleep(2)
-            await self.coordinator.async_request_refresh()
-        except IXcommandApiError as err:
-            _LOGGER.error("Failed to disable single phase mode: %s", err)
-            raise
+        await self._async_control(PROP_SINGLE_PHASE, False)
 
 
 class IXcommandBoostStateSwitch(IXcommandEntity, SwitchEntity):
