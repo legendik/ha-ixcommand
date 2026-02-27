@@ -18,24 +18,26 @@ class IXcommandEntity(CoordinatorEntity[IXcommandCoordinator]):
         entity_suffix: str,
     ) -> None:
         """Initialize the entity."""
-        super().__init__(coordinator)
-        self.config_entry = config_entry
-        self.entity_suffix = entity_suffix
+        # Set up unique_id BEFORE super().__init__
+        serial = config_entry.data[CONF_SERIAL_NUMBER]
+        self._attr_unique_id = f"{DOMAIN}_{serial}_{entity_suffix}"
+        self._attr_object_id = f"{DOMAIN}_{serial}_{entity_suffix}"
+        self._attr_has_entity_name = True
+        self._attr_name = entity_suffix.replace('_', ' ').title()
 
         # Set up device info
         self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, config_entry.data[CONF_SERIAL_NUMBER])},
-            name=f"iXcommand Charger {config_entry.data[CONF_SERIAL_NUMBER]}",
+            identifiers={(DOMAIN, serial)},
+            name=f"iXcommand Charger {serial}",
             manufacturer=MANUFACTURER,
             model=MODEL,
             sw_version="1.0.0",
         )
 
-        # Set up entity ID with domain prefix for uniqueness across multiple chargers
-        self._attr_unique_id = f"{DOMAIN}_{config_entry.data[CONF_SERIAL_NUMBER]}_{entity_suffix}"
-
-        # Set up entity name (simple name, device provides context)
-        self._attr_name = f"{entity_suffix.replace('_', ' ').title()}"
+        # Call super last
+        super().__init__(coordinator)
+        self.config_entry = config_entry
+        self.entity_suffix = entity_suffix
 
     @property
     def available(self) -> bool:

@@ -35,8 +35,8 @@ class IXcommandConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # type: ig
                     finally:
                         await api_client.close()
 
-                    # Create the config entry
-                    await self.async_set_unique_id(serial)
+                    # Create the config entry with prefix for unique_id
+                    await self.async_set_unique_id(f"{DOMAIN}_{serial}")
                     self._abort_if_unique_id_configured()
 
                     return self.async_create_entry(
