@@ -1,25 +1,24 @@
 """Data coordinator for iXcommand EV Charger."""
 
-from datetime import timedelta
 import logging
-from typing import Any, Dict
+from datetime import timedelta
+from typing import Any
 
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
-from homeassistant.config_entries import ConfigEntry
 
-from .api import IXcommandApiClient, IXcommandApiAuthError, IXcommandApiError
+from .api import IXcommandApiAuthError, IXcommandApiClient, IXcommandApiError
 from .const import (
-    CONF_API_KEY,
+    ALL_READABLE_PROPERTIES,
     CONF_SERIAL_NUMBER,
     UPDATE_INTERVAL,
-    ALL_READABLE_PROPERTIES,
 )
 
 _LOGGER = logging.getLogger(__name__)
 
 
-class IXcommandCoordinator(DataUpdateCoordinator[Dict[str, Any]]):
+class IXcommandCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     """Data coordinator for iXcommand EV Charger."""
 
     def __init__(
@@ -36,7 +35,7 @@ class IXcommandCoordinator(DataUpdateCoordinator[Dict[str, Any]]):
         self.api_client = api_client
         self.serial_number = config_entry.data[CONF_SERIAL_NUMBER]
 
-    async def _async_update_data(self) -> Dict[str, Any]:
+    async def _async_update_data(self) -> dict[str, Any]:
         """Fetch data from the API."""
         try:
             _LOGGER.debug("Fetching data for charger %s", self.serial_number)

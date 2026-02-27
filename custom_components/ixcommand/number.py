@@ -7,10 +7,10 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .api import IXcommandApiClient
 from .const import (
-    PROP_TARGET_CURRENT,
     PROP_BOOST_CURRENT,
-    PROP_MAXIMUM_CURRENT,
     PROP_BOOST_TIME,
+    PROP_MAXIMUM_CURRENT,
+    PROP_TARGET_CURRENT,
 )
 from .controllable_entity import IXcommandControllableEntity
 from .coordinator import IXcommandCoordinator

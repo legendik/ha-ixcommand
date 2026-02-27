@@ -6,7 +6,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .api import IXcommandApiClient
-from .const import PROP_CHARGING_ENABLE, PROP_SINGLE_PHASE, PROP_BOOST_STATE
+from .const import PROP_BOOST_STATE, PROP_CHARGING_ENABLE, PROP_SINGLE_PHASE
 from .controllable_entity import IXcommandControllableEntity
 from .coordinator import IXcommandCoordinator
 from .entity import IXcommandEntity

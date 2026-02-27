@@ -2,11 +2,8 @@
 
 import voluptuous as vol
 from homeassistant import config_entries
-from homeassistant.core import HomeAssistant
-from homeassistant.exceptions import HomeAssistantError
-import homeassistant.helpers.config_validation as cv
 
-from .api import IXcommandApiClient, IXcommandApiAuthError, IXcommandApiError
+from .api import IXcommandApiAuthError, IXcommandApiClient, IXcommandApiError
 from .const import CONF_API_KEY, CONF_SERIAL_NUMBER, DOMAIN
 
 

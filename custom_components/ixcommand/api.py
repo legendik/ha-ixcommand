@@ -1,14 +1,15 @@
 """API client for iXcommand EV Charger."""
 
 import asyncio
-from typing import Any, Dict, List
-import aiohttp
 import logging
+from typing import Any
+
+import aiohttp
 
 from .const import (
+    ALL_READABLE_PROPERTIES,
     API_BASE_URL,
     API_TIMEOUT,
-    ALL_READABLE_PROPERTIES,
     WRITABLE_PROPERTIES,
 )
 
@@ -36,7 +37,7 @@ class IXcommandApiClient:
         if self._session:
             await self._session.close()
 
-    def _get_headers(self) -> Dict[str, str]:
+    def _get_headers(self) -> dict[str, str]:
         """Get headers for API requests."""
         return {
             "X-API-KEY": self._api_key,
@@ -47,9 +48,9 @@ class IXcommandApiClient:
         self,
         method: str,
         endpoint: str,
-        data: Dict[str, Any] | None = None,
-        params: Dict[str, Any] | List[tuple[str, str]] | None = None,
-    ) -> Dict[str, Any]:
+        data: dict[str, Any] | None = None,
+        params: dict[str, Any] | list[tuple[str, str]] | None = None,
+    ) -> dict[str, Any]:
         """Make an HTTP request to the API."""
         url = f"{API_BASE_URL}{endpoint}"
 
@@ -77,8 +78,8 @@ class IXcommandApiClient:
             raise IXcommandApiError("Request timeout") from err
 
     async def get_properties(
-        self, serial_number: str, properties: List[str] | None = None
-    ) -> Dict[str, Any]:
+        self, serial_number: str, properties: list[str] | None = None
+    ) -> dict[str, Any]:
         """Get properties from a thing (charger)."""
         if properties is None:
             properties = ALL_READABLE_PROPERTIES
@@ -91,8 +92,8 @@ class IXcommandApiClient:
         return await self._make_request("GET", endpoint, params=params)
 
     async def set_properties(
-        self, serial_number: str, properties: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, serial_number: str, properties: dict[str, Any]
+    ) -> dict[str, Any]:
         """Set properties on a thing (charger)."""
         # Validate that only writable properties are being set
         invalid_props = set(properties.keys()) - set(WRITABLE_PROPERTIES)

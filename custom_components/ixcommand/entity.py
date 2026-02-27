@@ -1,10 +1,10 @@
 """Base entity for iXcommand EV Charger."""
 
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
-from homeassistant.config_entries import ConfigEntry
 
-from .const import DOMAIN, MANUFACTURER, MODEL, CONF_SERIAL_NUMBER
+from .const import CONF_SERIAL_NUMBER, DOMAIN, MANUFACTURER, MODEL
 from .coordinator import IXcommandCoordinator
 
 

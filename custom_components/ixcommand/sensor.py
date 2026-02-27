@@ -10,17 +10,17 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import (
+    CHARGING_STATUSES,
+    PROP_BOOST_REMAINING,
+    PROP_BSSID,
     PROP_CHARGING_CURRENT,
     PROP_CHARGING_CURRENT_L2,
     PROP_CHARGING_CURRENT_L3,
-    PROP_CURRENT_CHARGING_POWER,
-    PROP_TOTAL_ENERGY,
-    PROP_BOOST_REMAINING,
-    PROP_SIGNAL,
     PROP_CHARGING_STATUS,
+    PROP_CURRENT_CHARGING_POWER,
+    PROP_SIGNAL,
     PROP_SSID,
-    PROP_BSSID,
-    CHARGING_STATUSES,
+    PROP_TOTAL_ENERGY,
 )
 from .coordinator import IXcommandCoordinator
 from .entity import IXcommandEntity
