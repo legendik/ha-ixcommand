@@ -99,8 +99,11 @@ class IXcommandApiClient:
         if invalid_props:
             raise ValueError(f"Cannot set read-only properties: {invalid_props}")
 
+        _LOGGER.debug("Setting properties for charger %s: %s", serial_number, properties)
         endpoint = f"/thing/{serial_number}/properties"
-        return await self._make_request("PATCH", endpoint, data=properties)
+        result = await self._make_request("PATCH", endpoint, data=properties)
+        _LOGGER.debug("Successfully set properties for charger %s", serial_number)
+        return result
 
     async def test_connection(self, serial_number: str) -> bool:
         """Test the connection to the API by fetching basic properties."""

@@ -38,11 +38,16 @@ class IXcommandCoordinator(DataUpdateCoordinator[Dict[str, Any]]):
     async def _async_update_data(self) -> Dict[str, Any]:
         """Fetch data from the API."""
         try:
-            return await self.api_client.get_properties(
+            _LOGGER.debug("Fetching data for charger %s", self.serial_number)
+            data = await self.api_client.get_properties(
                 self.serial_number, ALL_READABLE_PROPERTIES
             )
+            _LOGGER.debug("Successfully fetched %d properties for charger %s", len(data), self.serial_number)
+            return data
         except IXcommandApiAuthError as err:
             # This will trigger a config entry reauth flow
+            _LOGGER.error("Authentication failed for charger %s: %s", self.serial_number, err)
             raise UpdateFailed("Authentication failed") from err
         except IXcommandApiError as err:
+            _LOGGER.error("Error communicating with API for charger %s: %s", self.serial_number, err)
             raise UpdateFailed(f"Error communicating with API: {err}") from err

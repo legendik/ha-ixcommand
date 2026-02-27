@@ -1,10 +1,12 @@
 """Number entities for iXcommand EV Charger."""
 
+import logging
 from homeassistant.components.number import NumberEntity, NumberMode
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
+from .api import IXcommandApiError
 from .const import (
     PROP_TARGET_CURRENT,
     PROP_BOOST_CURRENT,
@@ -13,6 +15,8 @@ from .const import (
 )
 from .coordinator import IXcommandCoordinator
 from .entity import IXcommandEntity
+
+_LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
@@ -68,10 +72,16 @@ class IXcommandTargetCurrentNumber(IXcommandEntity, NumberEntity):
 
     async def async_set_native_value(self, value: float) -> None:
         """Set the target current."""
-        await self.api_client.set_properties(
-            self.coordinator.serial_number, {PROP_TARGET_CURRENT: int(value)}
-        )
-        await self.coordinator.async_request_refresh()
+        try:
+            _LOGGER.debug("Setting target current to %s for charger %s", value, self.coordinator.serial_number)
+            await self.api_client.set_properties(
+                self.coordinator.serial_number, {PROP_TARGET_CURRENT: int(value)}
+            )
+            _LOGGER.debug("Successfully set target current, refreshing data")
+            await self.coordinator.async_request_refresh()
+        except IXcommandApiError as err:
+            _LOGGER.error("Failed to set target current to %s: %s", value, err)
+            raise
 
 
 class IXcommandBoostCurrentNumber(IXcommandEntity, NumberEntity):
@@ -108,10 +118,16 @@ class IXcommandBoostCurrentNumber(IXcommandEntity, NumberEntity):
 
     async def async_set_native_value(self, value: float) -> None:
         """Set the boost current."""
-        await self.api_client.set_properties(
-            self.coordinator.serial_number, {PROP_BOOST_CURRENT: int(value)}
-        )
-        await self.coordinator.async_request_refresh()
+        try:
+            _LOGGER.debug("Setting boost current to %s for charger %s", value, self.coordinator.serial_number)
+            await self.api_client.set_properties(
+                self.coordinator.serial_number, {PROP_BOOST_CURRENT: int(value)}
+            )
+            _LOGGER.debug("Successfully set boost current, refreshing data")
+            await self.coordinator.async_request_refresh()
+        except IXcommandApiError as err:
+            _LOGGER.error("Failed to set boost current to %s: %s", value, err)
+            raise
 
 
 class IXcommandMaximumCurrentNumber(IXcommandEntity, NumberEntity):
@@ -143,10 +159,16 @@ class IXcommandMaximumCurrentNumber(IXcommandEntity, NumberEntity):
 
     async def async_set_native_value(self, value: float) -> None:
         """Set the maximum current."""
-        await self.api_client.set_properties(
-            self.coordinator.serial_number, {PROP_MAXIMUM_CURRENT: int(value)}
-        )
-        await self.coordinator.async_request_refresh()
+        try:
+            _LOGGER.debug("Setting maximum current to %s for charger %s", value, self.coordinator.serial_number)
+            await self.api_client.set_properties(
+                self.coordinator.serial_number, {PROP_MAXIMUM_CURRENT: int(value)}
+            )
+            _LOGGER.debug("Successfully set maximum current, refreshing data")
+            await self.coordinator.async_request_refresh()
+        except IXcommandApiError as err:
+            _LOGGER.error("Failed to set maximum current to %s: %s", value, err)
+            raise
 
 
 class IXcommandBoostTimeNumber(IXcommandEntity, NumberEntity):
@@ -178,7 +200,13 @@ class IXcommandBoostTimeNumber(IXcommandEntity, NumberEntity):
 
     async def async_set_native_value(self, value: float) -> None:
         """Set the boost time."""
-        await self.api_client.set_properties(
-            self.coordinator.serial_number, {PROP_BOOST_TIME: int(value)}
-        )
-        await self.coordinator.async_request_refresh()
+        try:
+            _LOGGER.debug("Setting boost time to %s seconds for charger %s", value, self.coordinator.serial_number)
+            await self.api_client.set_properties(
+                self.coordinator.serial_number, {PROP_BOOST_TIME: int(value)}
+            )
+            _LOGGER.debug("Successfully set boost time, refreshing data")
+            await self.coordinator.async_request_refresh()
+        except IXcommandApiError as err:
+            _LOGGER.error("Failed to set boost time to %s: %s", value, err)
+            raise

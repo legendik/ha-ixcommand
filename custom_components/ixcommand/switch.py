@@ -1,13 +1,17 @@
 """Switch entities for iXcommand EV Charger."""
 
+import logging
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
+from .api import IXcommandApiError
 from .const import PROP_CHARGING_ENABLE, PROP_SINGLE_PHASE, PROP_BOOST_STATE
 from .coordinator import IXcommandCoordinator
 from .entity import IXcommandEntity
+
+_LOGGER = logging.getLogger(__name__)
 
 
 async def async_setup_entry(
@@ -51,17 +55,29 @@ class IXcommandChargingEnableSwitch(IXcommandEntity, SwitchEntity):
 
     async def async_turn_on(self, **kwargs) -> None:
         """Turn on charging."""
-        await self.api_client.set_properties(
-            self.coordinator.serial_number, {PROP_CHARGING_ENABLE: True}
-        )
-        await self.coordinator.async_request_refresh()
+        try:
+            _LOGGER.debug("Turning on charging for charger %s", self.coordinator.serial_number)
+            await self.api_client.set_properties(
+                self.coordinator.serial_number, {PROP_CHARGING_ENABLE: True}
+            )
+            _LOGGER.debug("Successfully turned on charging, refreshing data")
+            await self.coordinator.async_request_refresh()
+        except IXcommandApiError as err:
+            _LOGGER.error("Failed to turn on charging: %s", err)
+            raise
 
     async def async_turn_off(self, **kwargs) -> None:
         """Turn off charging."""
-        await self.api_client.set_properties(
-            self.coordinator.serial_number, {PROP_CHARGING_ENABLE: False}
-        )
-        await self.coordinator.async_request_refresh()
+        try:
+            _LOGGER.debug("Turning off charging for charger %s", self.coordinator.serial_number)
+            await self.api_client.set_properties(
+                self.coordinator.serial_number, {PROP_CHARGING_ENABLE: False}
+            )
+            _LOGGER.debug("Successfully turned off charging, refreshing data")
+            await self.coordinator.async_request_refresh()
+        except IXcommandApiError as err:
+            _LOGGER.error("Failed to turn off charging: %s", err)
+            raise
 
 
 class IXcommandSinglePhaseSwitch(IXcommandEntity, SwitchEntity):
@@ -87,17 +103,29 @@ class IXcommandSinglePhaseSwitch(IXcommandEntity, SwitchEntity):
 
     async def async_turn_on(self, **kwargs) -> None:
         """Enable single phase mode."""
-        await self.api_client.set_properties(
-            self.coordinator.serial_number, {PROP_SINGLE_PHASE: True}
-        )
-        await self.coordinator.async_request_refresh()
+        try:
+            _LOGGER.debug("Enabling single phase mode for charger %s", self.coordinator.serial_number)
+            await self.api_client.set_properties(
+                self.coordinator.serial_number, {PROP_SINGLE_PHASE: True}
+            )
+            _LOGGER.debug("Successfully enabled single phase mode, refreshing data")
+            await self.coordinator.async_request_refresh()
+        except IXcommandApiError as err:
+            _LOGGER.error("Failed to enable single phase mode: %s", err)
+            raise
 
     async def async_turn_off(self, **kwargs) -> None:
         """Disable single phase mode."""
-        await self.api_client.set_properties(
-            self.coordinator.serial_number, {PROP_SINGLE_PHASE: False}
-        )
-        await self.coordinator.async_request_refresh()
+        try:
+            _LOGGER.debug("Disabling single phase mode for charger %s", self.coordinator.serial_number)
+            await self.api_client.set_properties(
+                self.coordinator.serial_number, {PROP_SINGLE_PHASE: False}
+            )
+            _LOGGER.debug("Successfully disabled single phase mode, refreshing data")
+            await self.coordinator.async_request_refresh()
+        except IXcommandApiError as err:
+            _LOGGER.error("Failed to disable single phase mode: %s", err)
+            raise
 
 
 class IXcommandBoostStateSwitch(IXcommandEntity, SwitchEntity):
