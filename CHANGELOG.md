@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.3](https://github.com/legendik/ha-ixcommand/compare/ixcommand-v1.0.2...ixcommand-v1.0.3) (2026-02-27)
+
+
+### Bug Fixes
+
+* async ([a3d74eb](https://github.com/legendik/ha-ixcommand/commit/a3d74ebf4e0d381440f3026277635f057109f15c))
+* signal strength ([9d8bc09](https://github.com/legendik/ha-ixcommand/commit/9d8bc09207cd14c39561900cf8492ee5a8dc5998))
+
 ## [1.0.2](https://github.com/legendik/ha-ixcommand/compare/ixcommand-v1.0.1...ixcommand-v1.0.2) (2026-02-27)
 
 
