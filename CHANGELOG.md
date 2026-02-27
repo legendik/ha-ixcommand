@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/legendik/ha-ixcommand/compare/ixcommand-v1.0.1...ixcommand-v1.0.2) (2026-02-27)
+
+
+### Bug Fixes
+
+* add debug ([ae9ce78](https://github.com/legendik/ha-ixcommand/commit/ae9ce784e9597175d272d7ca1188bfa1af84cc14))
+
 ## [1.0.1](https://github.com/legendik/ha-ixcommand/compare/ixcommand-v1.0.0...ixcommand-v1.0.1) (2026-02-27)
 
 
