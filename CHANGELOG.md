@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/legendik/ha-ixcommand/compare/ixcommand-v1.0.0...ixcommand-v1.0.1) (2026-02-27)
+
+
+### Bug Fixes
+
+* send keys as multiple parameters ([8374326](https://github.com/legendik/ha-ixcommand/commit/8374326887e5ec9b7768bc10f7d16cdf00b308d6))
+
 ## 1.0.0 (2026-02-27)
 
 
