@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/legendik/ha-ixcommand/compare/ixcommand-v1.1.0...ixcommand-v1.1.1) (2026-02-27)
+
+
+### Bug Fixes
+
+* configflow was broken ([02d70d8](https://github.com/legendik/ha-ixcommand/commit/02d70d8bbeba8c287e5efc3d2db4f32f39fe2fad))
+
 ## [1.1.0](https://github.com/legendik/ha-ixcommand/compare/ixcommand-v1.0.3...ixcommand-v1.1.0) (2026-02-27)
 
 
