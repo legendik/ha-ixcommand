@@ -44,7 +44,6 @@ class IXcommandChargingEnableSwitch(IXcommandControllableEntity, IXcommandEntity
         """Initialize the switch."""
         IXcommandEntity.__init__(self, coordinator, config_entry, entity_suffix)
         IXcommandControllableEntity.__init__(self, coordinator, api_client)
-        self._attr_name = friendly_name
 
     @property
     def is_on(self) -> bool | None:
@@ -74,7 +73,6 @@ class IXcommandSinglePhaseSwitch(IXcommandControllableEntity, IXcommandEntity, S
         """Initialize the switch."""
         IXcommandEntity.__init__(self, coordinator, config_entry, entity_suffix)
         IXcommandControllableEntity.__init__(self, coordinator, api_client)
-        self._attr_name = friendly_name
 
     @property
     def is_on(self) -> bool | None:
@@ -102,7 +100,6 @@ class IXcommandBoostStateSwitch(IXcommandEntity, SwitchEntity):
     ) -> None:
         """Initialize the switch."""
         super().__init__(coordinator, config_entry, entity_suffix)
-        self._attr_name = friendly_name
 
     @property
     def is_on(self) -> bool | None:

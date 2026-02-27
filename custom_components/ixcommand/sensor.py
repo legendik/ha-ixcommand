@@ -72,7 +72,6 @@ class IXcommandPowerSensor(IXcommandEntity, SensorEntity):
     ) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator, config_entry, entity_suffix)
-        self._attr_name = friendly_name
 
     @property
     def native_value(self) -> float | None:
@@ -97,7 +96,6 @@ class IXcommandEnergySensor(IXcommandEntity, SensorEntity):
     ) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator, config_entry, entity_suffix)
-        self._attr_name = friendly_name
 
     @property
     def native_value(self) -> int | None:
@@ -123,7 +121,6 @@ class IXcommandCurrentSensor(IXcommandEntity, SensorEntity):
     ) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator, config_entry, entity_suffix)
-        self._attr_name = friendly_name
         self._property_key = property_key
 
     @property
@@ -149,7 +146,6 @@ class IXcommandDurationSensor(IXcommandEntity, SensorEntity):
     ) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator, config_entry, entity_suffix)
-        self._attr_name = friendly_name
 
     @property
     def native_value(self) -> int | None:
@@ -172,7 +168,6 @@ class IXcommandSignalStrengthSensor(IXcommandEntity, SensorEntity):
     ) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator, config_entry, entity_suffix)
-        self._attr_name = friendly_name
 
     @property
     def native_value(self) -> int | None:
@@ -195,7 +190,6 @@ class IXcommandChargingStatusSensor(IXcommandEntity, SensorEntity):
     ) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator, config_entry, entity_suffix)
-        self._attr_name = friendly_name
 
     @property
     def native_value(self) -> str | None:
@@ -216,7 +210,6 @@ class IXcommandTextSensor(IXcommandEntity, SensorEntity):
     ) -> None:
         """Initialize the sensor."""
         super().__init__(coordinator, config_entry, entity_suffix)
-        self._attr_name = friendly_name
         self._property_key = property_key
 
     @property

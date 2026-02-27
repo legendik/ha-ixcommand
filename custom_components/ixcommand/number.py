@@ -56,7 +56,6 @@ class IXcommandTargetCurrentNumber(IXcommandControllableEntity, IXcommandEntity,
         """Initialize the number entity."""
         IXcommandEntity.__init__(self, coordinator, config_entry, entity_suffix)
         IXcommandControllableEntity.__init__(self, coordinator, api_client)
-        self._attr_name = friendly_name
 
     @property
     def native_max_value(self) -> float:
@@ -94,7 +93,6 @@ class IXcommandBoostCurrentNumber(IXcommandControllableEntity, IXcommandEntity, 
         """Initialize the number entity."""
         IXcommandEntity.__init__(self, coordinator, config_entry, entity_suffix)
         IXcommandControllableEntity.__init__(self, coordinator, api_client)
-        self._attr_name = friendly_name
 
     @property
     def native_max_value(self) -> float:
@@ -133,7 +131,6 @@ class IXcommandMaximumCurrentNumber(IXcommandControllableEntity, IXcommandEntity
         """Initialize the number entity."""
         IXcommandEntity.__init__(self, coordinator, config_entry, entity_suffix)
         IXcommandControllableEntity.__init__(self, coordinator, api_client)
-        self._attr_name = friendly_name
 
     @property
     def native_value(self) -> float | None:
@@ -166,7 +163,6 @@ class IXcommandBoostTimeNumber(IXcommandControllableEntity, IXcommandEntity, Num
         """Initialize the number entity."""
         IXcommandEntity.__init__(self, coordinator, config_entry, entity_suffix)
         IXcommandControllableEntity.__init__(self, coordinator, api_client)
-        self._attr_name = friendly_name
 
     @property
     def native_value(self) -> float | None:

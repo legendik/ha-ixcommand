@@ -34,8 +34,8 @@ class IXcommandEntity(CoordinatorEntity[IXcommandCoordinator]):
         # Set up entity ID with domain prefix for uniqueness across multiple chargers
         self._attr_unique_id = f"{DOMAIN}_{config_entry.data[CONF_SERIAL_NUMBER]}_{entity_suffix}"
 
-        # Set up entity name
-        self._attr_name = f"{MANUFACTURER} {config_entry.data[CONF_SERIAL_NUMBER]} {entity_suffix.replace('_', ' ').title()}"
+        # Set up entity name (simple name, device provides context)
+        self._attr_name = f"{entity_suffix.replace('_', ' ').title()}"
 
     @property
     def available(self) -> bool:
