@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/legendik/ha-ixcommand/compare/ixcommand-v1.1.1...ixcommand-v1.2.0) (2026-02-27)
+
+
+### Features
+
+* make the serial number uppercase for the user ([8be42b2](https://github.com/legendik/ha-ixcommand/commit/8be42b286a5bc47bf535b7114162903f9a8554ec))
+
 ## [1.1.1](https://github.com/legendik/ha-ixcommand/compare/ixcommand-v1.1.0...ixcommand-v1.1.1) (2026-02-27)
 
 
