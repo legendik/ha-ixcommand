@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.3](https://github.com/legendik/ha-ixcommand/compare/ixcommand-v1.2.2...ixcommand-v1.2.3) (2026-02-27)
+
+
+### Bug Fixes
+
+* properly set entity_id with domain prefix and object_id ([36c0752](https://github.com/legendik/ha-ixcommand/commit/36c07528d4e5b077568c852bfeaa8716928938ce))
+
 ## [1.2.2](https://github.com/legendik/ha-ixcommand/compare/ixcommand-v1.2.1...ixcommand-v1.2.2) (2026-02-27)
 
 
