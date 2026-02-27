@@ -1,5 +1,6 @@
 """Switch entities for iXcommand EV Charger."""
 
+import asyncio
 import logging
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.config_entries import ConfigEntry
@@ -60,7 +61,13 @@ class IXcommandChargingEnableSwitch(IXcommandEntity, SwitchEntity):
             await self.api_client.set_properties(
                 self.coordinator.serial_number, {PROP_CHARGING_ENABLE: True}
             )
-            _LOGGER.debug("Successfully turned on charging, refreshing data")
+            _LOGGER.debug("Successfully turned on charging, updating local state")
+            # Optimistically update coordinator data
+            updated_data = self.coordinator.data.copy()
+            updated_data[PROP_CHARGING_ENABLE] = True
+            self.coordinator.async_set_updated_data(updated_data)
+            # Also refresh from API to confirm
+            await asyncio.sleep(2)
             await self.coordinator.async_request_refresh()
         except IXcommandApiError as err:
             _LOGGER.error("Failed to turn on charging: %s", err)
@@ -73,7 +80,13 @@ class IXcommandChargingEnableSwitch(IXcommandEntity, SwitchEntity):
             await self.api_client.set_properties(
                 self.coordinator.serial_number, {PROP_CHARGING_ENABLE: False}
             )
-            _LOGGER.debug("Successfully turned off charging, refreshing data")
+            _LOGGER.debug("Successfully turned off charging, updating local state")
+            # Optimistically update coordinator data
+            updated_data = self.coordinator.data.copy()
+            updated_data[PROP_CHARGING_ENABLE] = False
+            self.coordinator.async_set_updated_data(updated_data)
+            # Also refresh from API to confirm
+            await asyncio.sleep(2)
             await self.coordinator.async_request_refresh()
         except IXcommandApiError as err:
             _LOGGER.error("Failed to turn off charging: %s", err)
@@ -108,7 +121,13 @@ class IXcommandSinglePhaseSwitch(IXcommandEntity, SwitchEntity):
             await self.api_client.set_properties(
                 self.coordinator.serial_number, {PROP_SINGLE_PHASE: True}
             )
-            _LOGGER.debug("Successfully enabled single phase mode, refreshing data")
+            _LOGGER.debug("Successfully enabled single phase mode, updating local state")
+            # Optimistically update coordinator data
+            updated_data = self.coordinator.data.copy()
+            updated_data[PROP_SINGLE_PHASE] = True
+            self.coordinator.async_set_updated_data(updated_data)
+            # Also refresh from API to confirm
+            await asyncio.sleep(2)
             await self.coordinator.async_request_refresh()
         except IXcommandApiError as err:
             _LOGGER.error("Failed to enable single phase mode: %s", err)
@@ -121,7 +140,13 @@ class IXcommandSinglePhaseSwitch(IXcommandEntity, SwitchEntity):
             await self.api_client.set_properties(
                 self.coordinator.serial_number, {PROP_SINGLE_PHASE: False}
             )
-            _LOGGER.debug("Successfully disabled single phase mode, refreshing data")
+            _LOGGER.debug("Successfully disabled single phase mode, updating local state")
+            # Optimistically update coordinator data
+            updated_data = self.coordinator.data.copy()
+            updated_data[PROP_SINGLE_PHASE] = False
+            self.coordinator.async_set_updated_data(updated_data)
+            # Also refresh from API to confirm
+            await asyncio.sleep(2)
             await self.coordinator.async_request_refresh()
         except IXcommandApiError as err:
             _LOGGER.error("Failed to disable single phase mode: %s", err)

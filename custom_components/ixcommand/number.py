@@ -1,5 +1,6 @@
 """Number entities for iXcommand EV Charger."""
 
+import asyncio
 import logging
 from homeassistant.components.number import NumberEntity, NumberMode
 from homeassistant.config_entries import ConfigEntry
@@ -77,7 +78,13 @@ class IXcommandTargetCurrentNumber(IXcommandEntity, NumberEntity):
             await self.api_client.set_properties(
                 self.coordinator.serial_number, {PROP_TARGET_CURRENT: int(value)}
             )
-            _LOGGER.debug("Successfully set target current, refreshing data")
+            _LOGGER.debug("Successfully set target current, updating local state")
+            # Optimistically update coordinator data
+            updated_data = self.coordinator.data.copy()
+            updated_data[PROP_TARGET_CURRENT] = int(value)
+            self.coordinator.async_set_updated_data(updated_data)
+            # Also refresh from API to confirm
+            await asyncio.sleep(2)
             await self.coordinator.async_request_refresh()
         except IXcommandApiError as err:
             _LOGGER.error("Failed to set target current to %s: %s", value, err)
@@ -123,7 +130,13 @@ class IXcommandBoostCurrentNumber(IXcommandEntity, NumberEntity):
             await self.api_client.set_properties(
                 self.coordinator.serial_number, {PROP_BOOST_CURRENT: int(value)}
             )
-            _LOGGER.debug("Successfully set boost current, refreshing data")
+            _LOGGER.debug("Successfully set boost current, updating local state")
+            # Optimistically update coordinator data
+            updated_data = self.coordinator.data.copy()
+            updated_data[PROP_BOOST_CURRENT] = int(value)
+            self.coordinator.async_set_updated_data(updated_data)
+            # Also refresh from API to confirm
+            await asyncio.sleep(2)
             await self.coordinator.async_request_refresh()
         except IXcommandApiError as err:
             _LOGGER.error("Failed to set boost current to %s: %s", value, err)
@@ -164,7 +177,13 @@ class IXcommandMaximumCurrentNumber(IXcommandEntity, NumberEntity):
             await self.api_client.set_properties(
                 self.coordinator.serial_number, {PROP_MAXIMUM_CURRENT: int(value)}
             )
-            _LOGGER.debug("Successfully set maximum current, refreshing data")
+            _LOGGER.debug("Successfully set maximum current, updating local state")
+            # Optimistically update coordinator data
+            updated_data = self.coordinator.data.copy()
+            updated_data[PROP_MAXIMUM_CURRENT] = int(value)
+            self.coordinator.async_set_updated_data(updated_data)
+            # Also refresh from API to confirm
+            await asyncio.sleep(2)
             await self.coordinator.async_request_refresh()
         except IXcommandApiError as err:
             _LOGGER.error("Failed to set maximum current to %s: %s", value, err)
@@ -205,7 +224,13 @@ class IXcommandBoostTimeNumber(IXcommandEntity, NumberEntity):
             await self.api_client.set_properties(
                 self.coordinator.serial_number, {PROP_BOOST_TIME: int(value)}
             )
-            _LOGGER.debug("Successfully set boost time, refreshing data")
+            _LOGGER.debug("Successfully set boost time, updating local state")
+            # Optimistically update coordinator data
+            updated_data = self.coordinator.data.copy()
+            updated_data[PROP_BOOST_TIME] = int(value)
+            self.coordinator.async_set_updated_data(updated_data)
+            # Also refresh from API to confirm
+            await asyncio.sleep(2)
             await self.coordinator.async_request_refresh()
         except IXcommandApiError as err:
             _LOGGER.error("Failed to set boost time to %s: %s", value, err)

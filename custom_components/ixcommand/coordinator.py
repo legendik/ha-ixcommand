@@ -31,6 +31,7 @@ class IXcommandCoordinator(DataUpdateCoordinator[Dict[str, Any]]):
             _LOGGER,
             name=f"iXcommand {config_entry.data[CONF_SERIAL_NUMBER]}",
             update_interval=timedelta(seconds=UPDATE_INTERVAL),
+            always_update=True,
         )
         self.api_client = api_client
         self.serial_number = config_entry.data[CONF_SERIAL_NUMBER]
