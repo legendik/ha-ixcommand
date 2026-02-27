@@ -7,10 +7,9 @@ from .api import IXcommandApiAuthError, IXcommandApiClient, IXcommandApiError
 from .const import CONF_API_KEY, CONF_SERIAL_NUMBER, DOMAIN
 
 
-class IXcommandConfigFlow(config_entries.ConfigFlow):
+class IXcommandConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):  # type: ignore[call-arg]
     """Handle a config flow for iXcommand EV Charger."""
 
-    DOMAIN = DOMAIN
     VERSION = 1
 
     async def async_step_user(
