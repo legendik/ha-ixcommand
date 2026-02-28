@@ -2,116 +2,123 @@
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 
-Home Assistant custom component for iXcommand EV Chargers. Control your EV charger and monitor charging sessions with full integration into Home Assistant's Energy Dashboard.
+Home Assistant komponenta pro iXcommand EV nabíječky. Ovládejte svou EV nabíječku a sledujte procesy nabíjení s plnou integrací do Energy Dashboardu Home Assistant.
 
-## Features
+## Funkce
 
-- **Complete Control**: Turn charging on/off, set current limits, configure boost settings
-- **Real-time Monitoring**: Track charging power, current, energy consumption, and status
-- **Energy Dashboard Integration**: Automatic inclusion of energy consumption data
-- **Multiple Chargers**: Add as many chargers as needed (each as a separate integration)
-- **WiFi Diagnostics**: Monitor signal strength, SSID, and connection status
+- **Kompletní ovládání**: Zapnutí/vypnutí nabíjení, nastavení proudových limitů, konfigurace boost režimu
+- **Sledování v reálném čase**: Sledování nabíjecího výkonu, proudu, spotřeby energie a stavu
+- **Integrace s Energy Dashboardem**: Automatické začlenění dat o spotřebě energie
+- **Podpora více nabíječek**: Přidejte libovolný počet nabíječek (každá jako samostatná integrace)
+- **WiFi diagnostika**: Sledování síly signálu, SSID a stavu připojení
 
-## Installation
+## Instalace
 
-### Option 1: HACS (Recommended)
+### Možnost 1: HACS (Doporučeno)
 
-1. Make sure [HACS](https://hacs.xyz/) is installed
-2. Add this repository as a custom repository in HACS:
-   - Go to HACS → Integrations
-   - Click the three dots (⋮) → Custom repositories
-   - Add `https://github.com/legendik/ha-ixcommand` as a repository URL
-   - Select "Integration" as category
-3. Search for "iXcommand EV Charger" and install it
-4. Restart Home Assistant
+1. Ujistěte se, že je [HACS](https://hacs.xyz/) nainstalován
+2. Přidejte tuto repository jako custom repository v HACS:
+   - Jděte do HACS → Integrace
+   - Klikněte na tři tečky (⋮) → Vlastní repository
+   - Přidejte `https://github.com/legendik/ha-ixcommand` jako URL repository
+   - Vyberte kategorii "Integrace"
+3. Vyhledejte "iXcommand EV Charger" a nainstalujte
+4. Restartujte Home Assistant
 
-### Option 2: Manual Installation
+### Možnost 2: Manuální instalace
 
-1. Download the `custom_components/ixcommand/` folder from this repository
-2. Copy it to your Home Assistant's `custom_components/` directory
-3. Restart Home Assistant
+1. Stáhněte složku `custom_components/ixcommand/` z této repository
+2. Zkopírujte ji do složky `custom_components/` vašeho Home Assistant
+3. Restartujte Home Assistant
 
-## Configuration
+## Konfigurace
 
-1. Go to **Settings** → **Devices & Services** → **Add Integration**
-2. Search for "iXcommand EV Charger" and select it
-3. Enter your:
-   - **API Key**: Your iXcommand API key
-   - **Serial Number**: Your charger serial number (format: XXX-XXX-XXX)
-4. Click **Submit**
+1. Jděte do **Nastavení** → **Zařízení a služby** → **Přidat integraci**
+2. Vyhledejte "iXcommand EV Charger" a vyberte ji
+3. Zadejte:
+   - **API klíč**: Váš iXcommand API klíč
+   - **Sériové číslo**: Sériové číslo vaší nabíječky (formát: XXX-XXX-XXX)
+4. Klikněte na **Odeslat**
 
-### Adding Multiple Chargers
+### Získání API klíče a sériového čísla
 
-To add another charger:
-1. Go to **Settings** → **Devices & Services** → **Add Integration**
-2. Search for "iXcommand EV Charger" again
-3. Enter the API key and serial number for the second charger
-4. Each charger will appear as a separate device in Home Assistant
+1. Přihlaste se na https://www.ixfield.com/app/account
+2. V sekci API vygenerujte nový API klíč
+3. Sériové číslo najdete na štítku na zadní straně nabíječky (označení S/N)
+   - Formát: XXX-XXX-XXX (např. ABC-123-DEF)
 
-## Entities
+### Přidání více nabíječek
 
-Each charger creates the following entities:
+Pro přidání další nabíječky:
+1. Jděte do **Nastavení** → **Zařízení a služby** → **Přidat integraci**
+2. Vyhledejte "iXcommand EV Charger" znovu
+3. Zadejte API klíč a sériové číslo pro druhou nabíječku
+4. Každá nabíječka se zobrazí jako samostatné zařízení v Home Assistant
 
-### Sensors
-- **Current Charging Power** (`sensor`): Real-time charging power in watts
-- **Total Energy** (`sensor`): Lifetime energy consumption in watt-hours (available in Energy Dashboard)
-- **Charging Current L1/L2/L3** (`sensor`): Current per phase in amperes
-- **Boost Remaining** (`sensor`): Remaining boost time in seconds
-- **WiFi Signal** (`sensor`): WiFi signal strength percentage
-- **Charging Status** (`sensor`): Current charging state (INIT/IDLE/CONNECTED/CHARGING/etc.)
-- **WiFi SSID** (`sensor`): Connected WiFi network name
-- **WiFi BSSID** (`sensor`): WiFi access point MAC address
+## Entity
 
-### Switches
-- **Charging Enable** (`switch`): Turn charging on/off
-- **Single Phase Mode** (`switch`): Toggle between 1-phase and 3-phase charging
-- **Boost Mode** (`switch`): Current boost status (read-only)
+Každá nabíječka vytváří následující entity:
 
-### Number Controls
-- **Target Current** (`number`): Set normal charging current (6-16A, depending on max current)
-- **Boost Current** (`number`): Set boost charging current (6-16A, depending on max current)
-- **Maximum Current** (`number`): Set maximum allowed current (6-16A)
-- **Boost Time** (`number`): Set boost duration (0-86400 seconds)
+### Senzory
+- **Current Charging Power** (`sensor`): Aktuální nabíjecí výkon ve wattech
+- **Total Energy** (`sensor`): Celková spotřeba energie ve watthodinách (dostupné v Energy Dashboardu)
+- **Charging Current L1/L2/L3** (`sensor`): Proud na fázi v ampérech
+- **Boost Remaining** (`sensor`): Zbývající čas boostu v sekundách
+- **WiFi Signal** (`sensor`): Síla WiFi signálu v procentech
+- **Charging Status** (`sensor`): Aktuální stav nabíjení (INIT/IDLE/CONNECTED/CHARGING/atd.)
+- **WiFi SSID** (`sensor`): Název připojené WiFi sítě
+- **WiFi BSSID** (`sensor`): MAC adresa WiFi přístupového bodu
+
+### Přepínače
+- **Charging Enable** (`switch`): Zapnutí/vypnutí nabíjení
+- **Single Phase Mode** (`switch`): Přepínání mezi 1-fázovým a 3-fázovým nabíjením
+- **Boost Mode** (`switch`): Stav boost režimu (pouze čtení)
+
+### Číselné ovladače
+- **Target Current** (`number`): Nastavení normálního nabíjecího proudu (6-16A, podle max. proudu)
+- **Boost Current** (`number`): Nastavení boost nabíjecího proudu (6-16A, podle max. proudu)
+- **Maximum Current** (`number`): Nastavení maximálního povoleného proudu (6-16A)
+- **Boost Time** (`number`): Nastavení doby trvání boostu (0-86400 sekund)
 
 ## Energy Dashboard
 
-The **Total Energy** sensor is automatically configured for the Home Assistant Energy Dashboard:
+Senzor **Total Energy** je automaticky nakonfigurován pro Energy Dashboard Home Assistant:
 - Device Class: `energy`
 - State Class: `total_increasing`
-- Unit: `Wh`
+- Jednotka: `Wh`
 
-To add it to your Energy Dashboard:
-1. Go to **Settings** → **Dashboards** → **Energy**
-2. Under "Individual Devices", click **Add Device**
-3. Select your iXcommand charger device
-4. The energy consumption will be tracked automatically
+Pro přidání do Energy Dashboardu:
+1. Jděte do **Nastavení** → **Dashboards** → **Energy**
+2. V sekci "Individual Devices" klikněte na **Přidat zařízení**
+3. Vyberte vaše iXcommand zařízení
+4. Spotřeba energie bude sledována automaticky
 
-## API Information
+## Informace o API
 
-This integration uses the iXcommand API at `https://evcharger.ixcommand.com/api/v1/`. The API requires:
-- **Authentication**: X-API-KEY header
-- **Endpoints**: `/thing/{serial}/properties` for reading/writing charger properties
-- **Polling**: 30-second intervals to minimize API load
+Tato integrace používá iXcommand API na `https://evcharger.ixcommand.com/api/v1/`. API vyžaduje:
+- **Autentifikace**: X-API-KEY header
+- **Endpoints**: `/thing/{serial}/properties` pro čtení/zápis vlastností nabíječky
+- **Dotazování**: 30-sekundové intervaly pro minimalizaci zátěže API
 
-## Troubleshooting
+## Řešení problémů
 
-### Connection Issues
-- Verify your API key is correct
-- Check that your serial number is in XXX-XXX-XXX format
-- Ensure your charger is online and connected to the internet
+### Problémy s připojením
+- Ověřte, že váš API klíč je správný
+- Zkontrolujte, že vaše sériové číslo je ve formátu XXX-XXX-XXX
+- Ujistěte se, že je vaše nabíječka online a připojena k internetu
 
-### Authentication Errors
-- Your API key may be invalid or expired
-- Use the re-authentication flow in Home Assistant to update credentials
+### Chyby autentifikace
+- Váš API klíč může být neplatný nebo expirovaný
+- Použijte proces re-autentifikace v Home Assistant pro aktualizaci údajů
 
-### Missing Entities
-- Restart Home Assistant after installation
-- Check Home Assistant logs for any error messages
+### Chybějící entity
+- Restartujte Home Assistant po instalaci
+- Zkontrolujte logy Home Assistant pro případné chybové zprávy
 
-## Support
+## Podpora
 
-For issues or feature requests, please create an issue on this GitHub repository.
+Pro problémy nebo žádosti o funkce vytvořte prosím issue na této GitHub repository.
 
-## License
+## Licence
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Tento projekt je licencován pod MIT License - viz LICENSE soubor.
